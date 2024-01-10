@@ -105,12 +105,12 @@ func main() {
 				}
 			}
 
-			err = execSQL(db, fmt.Sprintf("CREATE USER %s WITH PASSWORD '%s';", user.Name, user.Password))
+			err = execSQL(db, fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD '%s';", user.Name, user.Password))
 			if err != nil {
 				log.Fatal(err)
 			}
 
-			err = execSQL(db, fmt.Sprintf("GRANT ALL PRIVILEGES ON DATABASE %s TO %s;", database.Name, user.Name))
+			err = execSQL(db, fmt.Sprintf("GRANT ALL PRIVILEGES ON DATABASE %s TO \"%s\";", database.Name, user.Name))
 			if err != nil {
 				log.Fatal(err)
 			}
