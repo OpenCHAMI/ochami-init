@@ -13,22 +13,20 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: GoReleaser Action
-      uses: goreleaser/goreleaser-action@v5.0.0
-      with:
-        version: latest
-        args: release --rm-dist
-        
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.21'
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
 
-    - name: Build
-      run: go build -v ./...
-
-    - name: Test
-      run: go test -v ./...
+      - name: Release with goreleaser
+        uses: goreleaser/goreleaser-action@v5.0.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          version: latest
+          args: release --clean
