@@ -13,7 +13,7 @@ databases:
         password: ChangeMeYouFool
       - name: smd
         password: ChangeMeYouFool
-  - name: bssds
+  - name: bssdb
     users:
       - name: bss-user
         password: ChangeMeYouFool

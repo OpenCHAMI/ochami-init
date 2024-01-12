@@ -94,7 +94,7 @@ func main() {
 	for _, database := range config.Databases {
 		err = execSQL(db, fmt.Sprintf("CREATE DATABASE %s;", database.Name))
 		if err != nil {
-			log.Fatal(err)
+			log.Printf("Failed to create database %s: %s", database.Name, err)
 		}
 
 		for _, user := range database.Users {
