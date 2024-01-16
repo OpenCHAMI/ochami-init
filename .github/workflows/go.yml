@@ -7,6 +7,7 @@ on:
   push:
     tags:
       - v*
+permissions: write-all # Necessary for creating containers
 
 jobs:
 
