@@ -39,3 +39,9 @@ jobs:
         with:
           version: latest
           args: release --clean
+      - name: generate build provenance
+        uses: github-early-access/generate-build-provenance@main
+        with:
+          subject-name: ghcr.io/openchami/ochami-init
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
