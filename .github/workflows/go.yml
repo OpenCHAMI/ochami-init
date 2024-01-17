@@ -43,7 +43,7 @@ jobs:
       - name: Process goreleaser output
         id: process_goreleaser_output
         run: |
-          echo "const artifacts = ${{ fromJson(steps.goreleaser.outputs.artifacts) }}" > process.js
+          echo "const artifacts = ${{ steps.goreleaser.outputs.artifacts }}" > process.js
           echo "const firstNonNullDigest = artifacts.find(artifact => artifact.extra && artifacts.extra.Digest != null)?.extra.Digest;" >> process.js
           echo "console.log(firstNonNullDigest);" >> process.js
           echo "fs.writeFileSync('digest.txt', firstNonNullDigest);" >> process.js
