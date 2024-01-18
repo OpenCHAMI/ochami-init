@@ -49,7 +49,7 @@ jobs:
           echo "console.log(firstNonNullDigest);" >> process.js
           echo "fs.writeFileSync('digest.txt', firstNonNullDigest);" >> process.js
           node process.js
-          echo "::set-output name=digest::$(cat digest.txt)"
+          echo "digest=$(cat digest.txt)" >> $GITHUB_OUTPUT
       - name: Attest Binaries
         uses: github-early-access/generate-build-provenance@main
         with:
