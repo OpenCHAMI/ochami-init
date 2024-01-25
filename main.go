@@ -61,6 +61,9 @@ func execSQL(db *sql.DB, query string) error {
 func main() {
 
 	config_file := os.Getenv("OCHAMI_CONFIG")
+	if config_file == "" {
+		log.Fatal("OCHAMI_CONFIG is required")
+	}
 	config, err := readConfig(config_file)
 	if err != nil {
 		log.Fatal(err)
