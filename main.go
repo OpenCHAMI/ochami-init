@@ -60,7 +60,8 @@ func execSQL(db *sql.DB, query string) error {
 
 func main() {
 
-	config, err := readConfig("ochami.yaml")
+	config_file := os.Getenv("OCHAMI_CONFIG")
+	config, err := readConfig(config_file)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -98,13 +99,6 @@ func main() {
 		}
 
 		for _, user := range database.Users {
-			if user.Password == "" {
-				user.Password, err = generatePassword()
-				if err != nil {
-					log.Fatal(err)
-				}
-			}
-
 			err = execSQL(db, fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD '%s';", user.Name, user.Password))
 			if err != nil {
 				log.Fatal(err)
@@ -115,10 +109,5 @@ func main() {
 				log.Fatal(err)
 			}
 		}
-	}
-
-	err = writeConfig("ochami.yaml", config)
-	if err != nil {
-		log.Fatal(err)
 	}
 }
