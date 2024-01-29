@@ -13,15 +13,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func generatePassword() (string, error) {
-	bytes := make([]byte, 16)
-	if _, err := rand.Read(bytes); err != nil {
-		return "", err
-	}
-
-	return hex.EncodeToString(bytes), nil
-}
-
 func connectDB(username, password, dbhost, dbname string) (*sql.DB, error) {
 	return connectDBWithRetry(username, password, dbhost, dbname, 2)
 }
@@ -60,11 +51,14 @@ func execSQL(db *sql.DB, query string) error {
 
 func main() {
 
-	config, err := readConfig("ochami.yaml")
+        if config_file == "" {
+		log.Fatal("OCHAMI_CONFIG is required")
+	}
+	config, err := readConfig(config_file)
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	
 	username := os.Getenv("DB_USER")
 	if username == "" {
 		log.Fatal("DB_USER is required")
@@ -98,13 +92,6 @@ func main() {
 		}
 
 		for _, user := range database.Users {
-			if user.Password == "" {
-				user.Password, err = generatePassword()
-				if err != nil {
-					log.Fatal(err)
-				}
-			}
-
 			err = execSQL(db, fmt.Sprintf("CREATE USER \"%s\" WITH PASSWORD '%s';", user.Name, user.Password))
 			if err != nil {
 				log.Fatal(err)
@@ -115,10 +102,5 @@ func main() {
 				log.Fatal(err)
 			}
 		}
-	}
-
-	err = writeConfig("ochami.yaml", config)
-	if err != nil {
-		log.Fatal(err)
 	}
 }
