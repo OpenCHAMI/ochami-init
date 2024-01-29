@@ -1,9 +1,7 @@
 package main
 
 import (
-	"crypto/rand"
 	"database/sql"
-	"encoding/hex"
 	"fmt"
 	"os"
 	"time"
@@ -51,7 +49,8 @@ func execSQL(db *sql.DB, query string) error {
 
 func main() {
 
-        if config_file == "" {
+	config_file := os.Getenv("OCHAMI_CONFIG")
+	if config_file == "" {
 		log.Fatal("OCHAMI_CONFIG is required")
 	}
 	config, err := readConfig(config_file)
