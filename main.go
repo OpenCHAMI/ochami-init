@@ -13,15 +13,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func generatePassword() (string, error) {
-	bytes := make([]byte, 16)
-	if _, err := rand.Read(bytes); err != nil {
-		return "", err
-	}
-
-	return hex.EncodeToString(bytes), nil
-}
-
 func connectDB(username, password, dbhost, dbname string) (*sql.DB, error) {
 	return connectDBWithRetry(username, password, dbhost, dbname, 2)
 }
