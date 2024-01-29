@@ -51,7 +51,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.merge_commit_sha }}
           fetch-tags: 1
           fetch-depth: 1
       - name: Release with goreleaser
